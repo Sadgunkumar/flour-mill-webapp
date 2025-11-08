@@ -27,21 +27,21 @@ It simplifies tasks such as customer billing, stock tracking, order management, 
 ---
 
 flour-mill-webapp/
-│
-├── server.js           # Express backend entry point
-├── package.json        # Dependencies and scripts
-├── /public             # Static assets (HTML, CSS, JS)
-├── /routes             # API routes
-├── /models             # Mongoose schemas
-├── /views              # UI templates
-└── /assets             # Screenshots, logos, etc.
+
+ server.js           # Express backend entry point
+ package.json        # Dependencies and scripts
+ /public             # Static assets (HTML, CSS, JS)
+ /routes             # API routes
+ /models             # Mongoose schemas
+ /views              # UI templates
+ /assets             # Screenshots, logos, etc.
 
 ---
 
 assets/
- ├── dashboard.png
- ├── analytics.png
- └── billing_page.png
+  dashboard.png
+  analytics.png
+  billing_page.png
 
  ---
  
