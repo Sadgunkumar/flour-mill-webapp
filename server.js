@@ -13,14 +13,21 @@ app.use(cors());
 // 🧭 Define paths
 const __dirnamePath = path.resolve();
 
-// 🌐 MongoDB connection
-const MONGO = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/flourdb';
-mongoose.connect(MONGO)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => {
-    console.error('❌ MongoDB connect error', err);
-    process.exit(1);
-  });
+// 🌐 MongoDB Atlas connection
+if (!process.env.MONGO_URI) {
+  console.error('❌ MONGO_URI not set. Please add it as an environment variable.');
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ MongoDB connected'))
+.catch(err => {
+  console.error('❌ MongoDB connect error', err);
+  process.exit(1);
+});
 
 // 🧩 Schema & Model
 const orderSchema = new mongoose.Schema({
@@ -52,12 +59,12 @@ function generateOrderId() {
 
 // 🚀 ROUTES
 
-// Serve static HTML files (from same folder)
-app.use(express.static(__dirnamePath));
+// Serve static files from /public
+app.use(express.static(path.join(__dirnamePath, 'public')));
 
 // Default route → open FirstPage.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirnamePath, 'FirstPage.html'));
+  res.sendFile(path.join(__dirnamePath, 'public', 'FirstPage.html'));
 });
 
 // 🧾 API Routes
@@ -70,7 +77,10 @@ app.post('/api/orders', async (req, res) => {
 
     const order = new Order({
       orderId: generateOrderId(),
-      product, quantity, totalPrice, customer,
+      product,
+      quantity,
+      totalPrice,
+      customer,
       payment: { status: 'pending', method: 'UPI' }
     });
 
@@ -108,5 +118,4 @@ app.get('/api/orders', async (req, res) => {
 
 // 🚀 Start server
 const PORT = process.env.PORT || 3000;
-app.listen(3000, '0.0.0.0', () => console.log('🚀 Server running on http://localhost:3000'));
-
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
