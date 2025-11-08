@@ -108,68 +108,72 @@
   </div>
 
   <script>
-const productSelect = document.getElementById('product');
-const quantityInput = document.getElementById('quantity');
-const priceDisplay = document.getElementById('price');
+    const productSelect = document.getElementById('product');
+    const quantityInput = document.getElementById('quantity');
+    const priceDisplay = document.getElementById('price');
 
-quantityInput.addEventListener('input', updatePrice);
-productSelect.addEventListener('change', updatePrice);
+    quantityInput.addEventListener('input', updatePrice);
+    productSelect.addEventListener('change', updatePrice);
 
-function updatePrice() {
-  const qty = parseFloat(quantityInput.value);
-  const pricePerKg = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price'));
-  if (!qty || qty <= 0) {
-    priceDisplay.textContent = "Total Price: ₹0";
-    return;
-  }
-  const total = (qty * pricePerKg).toFixed(2);
-  priceDisplay.textContent = `Total Price: ₹${total}`;
-}
-
-async function sendOrder() {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const product = productSelect.value;
-  const qty = parseFloat(quantityInput.value);
-  const pricePerKg = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price'));
-  const totalPrice = (qty * pricePerKg).toFixed(2);
-
-  if (!name || !phone || !address || !qty || qty <= 0) {
-    alert("⚠️ Please fill all details and valid quantity!");
-    return;
-  }
-
-  // ✅ Send to backend
-  try {
-    const response = await fetch("http://localhost:3000/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        product,
-        quantity: qty,
-        totalPrice,
-        customer: { name, phone, address }
-      })
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      alert(`✅ Order saved! Order ID: ${data.orderId}`);
-
-      // 🟢 Optional: Also open WhatsApp message
-      const message = `New Order Confirmed:\n\n🆔 Order ID: ${data.orderId}\n👤 ${name}\n📞 ${phone}\n🏠 ${address}\n📦 ${product}\n⚖️ ${qty} kg\n💰 ₹${totalPrice}`;
-      const phoneNumber = "919676020118";
-      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappURL, "_blank");
-    } else {
-      alert("❌ Server error: " + data.error);
+    function updatePrice() {
+      const qty = parseFloat(quantityInput.value);
+      const pricePerKg = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price'));
+      if (!qty || qty <= 0) {
+        priceDisplay.textContent = "Total Price: ₹0";
+        return;
+      }
+      const total = (qty * pricePerKg).toFixed(2);
+      priceDisplay.textContent = `Total Price: ₹${total}`;
     }
-  } catch (err) {
-    console.error(err);
-    alert("❌ Failed to connect to backend. Is the server running?");
-  }
-}
-</script>
+
+    async function sendOrder() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const product = productSelect.value;
+      const qty = parseFloat(quantityInput.value);
+      const pricePerKg = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price'));
+      const totalPrice = (qty * pricePerKg).toFixed(2);
+
+      if (!name || !phone || !address || !qty || qty <= 0) {
+        alert("⚠️ Please fill all details and valid quantity!");
+        return;
+      }
+
+      // ✅ Automatically choose backend URL
+      const BASE_URL = window.location.hostname === 'localhost'
+        ? 'http://localhost:3000'
+        : 'https://flour-mill-webapp.onrender.com'; // <-- replace with your Render URL
+
+      try {
+        const response = await fetch(`${BASE_URL}/api/orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            product,
+            quantity: qty,
+            totalPrice,
+            customer: { name, phone, address }
+          })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert(`✅ Order saved! Order ID: ${data.orderId}`);
+
+          // Optional: WhatsApp notification
+          const message = `New Order Confirmed:\n\n🆔 Order ID: ${data.orderId}\n👤 ${name}\n📞 ${phone}\n🏠 ${address}\n📦 ${product}\n⚖️ ${qty} kg\n💰 ₹${totalPrice}`;
+          const phoneNumber = "919676020118";
+          const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          window.open(whatsappURL, "_blank");
+        } else {
+          alert("❌ Server error: " + data.error);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Failed to connect to backend. Is the server running?");
+      }
+    }
+  </script>
 </body>
 </html>
