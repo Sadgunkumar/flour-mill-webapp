@@ -61,11 +61,12 @@ function generateOrderId() {
 // 🚀 ROUTES
 
 // Serve static files from /public
-app.use(express.static(path.join(__dirnamePath, 'public')));
+// Serve static files from root
+app.use(express.static(__dirnamePath));
 
 // Default route → open FirstPage.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirnamePath, 'public', 'FirstPage.html'));
+  res.sendFile(path.join(__dirnamePath, 'FirstPage.html'));
 });
 
 // 🧾 API Routes
@@ -120,3 +121,4 @@ app.get('/api/orders', async (req, res) => {
 // 🚀 Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
+
