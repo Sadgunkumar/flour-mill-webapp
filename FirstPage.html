@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flour Mill Business | Freshness from Our Mill to Your Home</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #5d5b54;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(90deg, #dcd5ca, #ff7043);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      z-index: 100;
+    }
+
+    header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 20px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffe082;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+      text-align: center;
+      padding: 100px 20px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      color: #4e342e;
+      margin-bottom: 20px;
+      animation: slideIn 1.2s ease-in-out;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #333;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .hero .btn {
+      display: inline-block;
+      background: #ff7043;
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 32px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255, 112, 67, 0.4);
+    }
+
+    .hero .btn:hover {
+      background: #e64a19;
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PRODUCTS SECTION */
+    .products-section {
+      padding: 80px 20px;
+      text-align: center;
+      background: #fff8e1;
+    }
+
+    .products-section h2 {
+      color: #4e342e;
+      margin-bottom: 40px;
+      font-size: 32px;
+    }
+
+    .products {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 16px;
+      width: 250px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(255, 87, 34, 0.3);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    .product h3 {
+      color: #ff7043;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .product p {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* CONTACT SECTION */
+    .contact {
+      padding: 60px 20px;
+      text-align: center;
+      background: linear-gradient(90deg, #ffcc80, #ffe0b2);
+      color: #4e342e;
+    }
+
+    .contact h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .contact p {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .contact a {
+      color: #d84315;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #4e342e;
+      color: #fff;
+      text-align: center;
+      padding: 16px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <img src="https://tse4.mm.bing.net/th/id/OIP.6Qg5toIzL0MlbLn8bzDMuAHaId?pid=Api&P=0&h=180.png" alt="Flour Mill Logo">
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
+      <a href="Orderpage1.html">Order</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Fresh. Pure. Trusted.</h1>
+    <p>Welcome to our Flour Mill — where tradition meets technology! We deliver high-quality flour and spices made from the finest grains, directly from our mill to your kitchen.</p>
+    <a href="Orderpage1.html" class="btn">Order Now</a>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section" id="products">
+    <h2>Our Best Products 🌾</h2>
+    <div class="products">
+      <div class="product">
+        <img src="flour.jpg" alt="Flour">
+        <h3>Fresh Wheat Flour</h3>
+        <p>Stone-ground, soft, and perfect for fluffy rotis and chapatis.</p>
+      </div>
+
+      <div class="product">
+        <img src="mirchi.jpg" alt="Mirchi Powder">
+        <h3>Mirchi Powder 🌶️</h3>
+        <p>Bold and pure — made from farm-fresh red chilies with no additives.</p>
+      </div>
+
+      <div class="product">
+        <img src="turmeric.jpg" alt="Turmeric Powder">
+        <h3>Turmeric Powder ✨</h3>
+        <p>Golden freshness with aroma, color, and natural health benefits.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2>Contact Us 📞</h2>
+    <p>Email: <a href="mailto:info@flourmill.com">info@flourmill.com</a></p>
+    <p>Phone: <a href="tel:+919676020118">+91 96760 20118</a></p>
+    <p>Address: Gajwel, Hyderabad, India</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Flour Mill Business. All rights reserved.
+  </footer>
+</body>
+</html>
