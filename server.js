@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // 🌿 Load dependencies
 require('dotenv').config();
 const express = require('express');
@@ -291,4 +290,3 @@ app.get('/api/orders', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
 
->>>>>>> fb6f88bb9c791778820b69aa557341cd19e7a093
