@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 
-// 🧩 Schema & Model
+// 🧩 Order Schema & Model
 const orderSchema = new mongoose.Schema({
   orderId: { type: String, required: true, unique: true },
   product: String,
@@ -58,6 +58,7 @@ function generateOrderId() {
   return 'FL' + Date.now().toString().slice(-8);
 }
 
+
 // 🚀 ROUTES
 
 // Serve static files from /public
@@ -68,10 +69,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirnamePath, 'public', 'FirstPage.html'));
 });
 
-// 🧾 API Routes
+
+// ----------------------
+// 🧾 ORDER API ROUTES
+// ----------------------
+
 app.post('/api/orders', async (req, res) => {
   try {
     const { product, quantity, totalPrice, customer } = req.body;
+
     if (!product || !quantity || !totalPrice || !customer?.name || !customer?.phone || !customer?.address) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -87,6 +93,7 @@ app.post('/api/orders', async (req, res) => {
 
     await order.save();
     res.status(201).json({ message: 'Order saved', id: order._id, orderId: order.orderId });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
@@ -97,6 +104,7 @@ app.post('/api/orders/:id/payment', async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+
     if (!['paid', 'failed'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
     const update = { 'payment.status': status };
@@ -106,6 +114,7 @@ app.post('/api/orders/:id/payment', async (req, res) => {
     if (!order) return res.status(404).json({ error: 'Order not found' });
 
     res.json({ message: 'Payment updated', order });
+
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Server error' });
@@ -117,6 +126,42 @@ app.get('/api/orders', async (req, res) => {
   res.json(orders);
 });
 
-// 🚀 Start server
+
+// ----------------------
+// 🧑‍💻 USER LOGIN SYSTEM (ADDED HERE)
+// ----------------------
+
+// User Schema
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String
+});
+
+const User = mongoose.model("users", userSchema);
+
+// CREATE USER
+app.post("/create", async (req, res) => {
+  try {
+    await User.create(req.body);
+    res.send("Account Created");
+  } catch (err) {
+    res.status(500).send("Error creating user");
+  }
+});
+
+// LOGIN USER
+app.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne(req.body);
+
+    if (user) res.send("Success");
+    else res.send("Invalid Username or Password");
+
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
+// 🌐 Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));

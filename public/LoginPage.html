@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flour Mill Login</title>
+
+  <style>
+    body {
+      font-family: Poppins, sans-serif;
+      background: #fff3e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      width: 340px;
+      padding: 25px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(204, 86, 50, 0.3);
+      text-align: center;
+    }
+
+    input {
+      width: 92%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: 1px solid #d12121;
+      font-size: 15px;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 14px;
+      color: #181717;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: #ff7043;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .secondary {
+      background: #c18c24;
+    }
+
+    #successMessage {
+    width: 300px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #28a745, #5dd65d);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: 0.4s ease;
+}
+
+#successMessage.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden {
+    display: none;
+}
+  </style>
+</head>
+<body>
+  <div id="successMessage" class="hidden">
+    ✔️ Login Successful!
+  </div>
+
+  <div class="box">
+    <h2>Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+
+    <div class="password-box">
+      <input type="password" id="password" placeholder="Password">
+      <span class="eye-btn" onclick="togglePassword()">👁</span>
+    </div>
+
+    <button onclick="login()">Login</button>
+    <button class="secondary" onclick="createUser()">Create</button>
+  </div>
+
+<script>
+
+// 👁 Show / Hide Password  
+function togglePassword() {
+  let p = document.getElementById("password");
+  p.type = (p.type === "password") ? "text" : "password";
+}
+
+// ▶ CREATE USER
+async function createUser() {
+  const data = {
+    username: document.getElementById("username").value,
+    password: document.getElementById("password").value
+  };
+
+  const res = await fetch("/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const msg = await res.text();
+
+  if (msg.includes("Account Created")) {
+      showSuccess("Account Created Successfully!");
+  } else {
+      showError(msg);
+  }
+}
+
+
+// ▶ LOGIN USER
+async function login() {
+  const data = {
+    username: document.getElementById("username").value,
+    password: document.getElementById("password").value
+  };
+
+  const res = await fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const msg = await res.text();
+
+if (msg.includes("Success")) {
+    showSuccess("Login Successful!");
+    setTimeout(() => {
+        window.location.href = "FirstPage.html";
+    }, 1200);
+} else {
+    showError(msg);
+}
+}
+function showSuccess(message) {
+    const msgBox = document.getElementById("successMessage");
+    msgBox.innerHTML = "✔️ " + message;
+    msgBox.classList.remove("hidden");
+
+    setTimeout(() => msgBox.classList.add("show"), 50);
+
+    setTimeout(() => {
+        msgBox.classList.remove("show");
+        setTimeout(() => msgBox.classList.add("hidden"), 400);
+    }, 2500);
+}
+
+function showError(message) {
+    const msgBox = document.getElementById("successMessage");
+    msgBox.innerHTML = "❌ " + message;
+    msgBox.style.background = "linear-gradient(135deg, #d9534f, #f26a6a)";
+    msgBox.classList.remove("hidden");
+
+    setTimeout(() => msgBox.classList.add("show"), 50);
+
+    setTimeout(() => {
+        msgBox.classList.remove("show");
+        setTimeout(() => msgBox.classList.add("hidden"), 400);
+    }, 2500);
+}
+
+</script>
+
+</body>
+</html>
