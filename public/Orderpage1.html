@@ -163,7 +163,7 @@
 
           // Optional: WhatsApp notification
           const message = `New Order Confirmed:\n\n🆔 Order ID: ${data.orderId}\n👤 ${name}\n📞 ${phone}\n🏠 ${address}\n📦 ${product}\n⚖️ ${qty} kg\n💰 ₹${totalPrice}`;
-          const phoneNumber = "919676020118";
+          const phoneNumber = "";
           const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
           window.open(whatsappURL, "_blank");
         } else {
